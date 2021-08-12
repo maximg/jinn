@@ -62,6 +62,11 @@ function jinn_dispatch
         exit 1
     fi
 
+    # TODO: check if they exist.
+    export JINN_PROJECT=$project
+    export JINN_PROJECT_FOLDER=$project_folder
+    export JINN_PROJECT_WORK_FOLDER="$(readlink "$JINN_PROJECT_FOLDER/project_folder")"
+
     $action_script $*
 }
 
