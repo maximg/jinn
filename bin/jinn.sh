@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -x
+if [ "$JINN_DEBUG" == "1" ]; then
+    set -x
+fi
 
 function jinn_usage
 {
