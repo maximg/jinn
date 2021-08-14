@@ -11,10 +11,10 @@ function jinn_usage
 # Set up global jinn variables.
 function jinn_setup
 {
-    jinn_folder=$HOME/.jinn
-    if [ ! -d "$jinn_folder" ]
+    jinn_projects_dir=$HOME/.jinn
+    if [ ! -d "$jinn_projects_dir" ]
     then
-        echo "$jinn_folder does not exist"
+        echo "$jinn_projects_dir does not exist"
         exit 1
     fi
 
@@ -25,7 +25,8 @@ function jinn_setup
         source="$(readlink "$source")"
         [[ $source != /* ]] && source="$dir/$source" # if $source was a relative symlink, we need to resolve it relative to the path where the symlink file was located
     done
-    jinn_bin="$( cd -P "$( dirname "$source" )" >/dev/null 2>&1 && pwd )"
+    export JINN_BIN_DIR="$( cd -P "$( dirname "$source" )" >/dev/null 2>&1 && pwd )"
+    export JINN_LIB_DIR="$( dirname "$JINN_BIN_DIR" )"/lib
 }
 
 # Extract mandatory project and action from the command line.
@@ -50,11 +51,11 @@ function jinn_try_action
 # Locate the action script and execute it, passing it the complete command line.
 function jinn_dispatch
 {
-    project_folder=$jinn_folder/$project
+    project_dir=$jinn_projects_dir/$project
 
     action_script=
-    jinn_try_action "$project_folder/$action.sh"
-    [ -z "$action_script" ] && jinn_try_action "$jinn_bin/jinn_$action.sh"
+    jinn_try_action "$project_dir/$action.sh"
+    [ -z "$action_script" ] && jinn_try_action "$JINN_BIN_DIR/jinn_$action.sh"
 
     if [ -z "$action_script" ]
     then
@@ -64,8 +65,8 @@ function jinn_dispatch
 
     # TODO: check if they exist.
     export JINN_PROJECT=$project
-    export JINN_PROJECT_FOLDER=$project_folder
-    export JINN_PROJECT_WORK_FOLDER="$(readlink "$JINN_PROJECT_FOLDER/project_folder")"
+    export JINN_PROJECT_DIR=$project_dir
+    export JINN_PROJECT_WORK_DIR="$(readlink "$JINN_PROJECT_DIR/project_dir")"
 
     $action_script $*
 }

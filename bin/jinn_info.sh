@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-if [ -z "$JINN_PROJECT_WORK_FOLDER" ]; then
+if [ -z "$JINN_PROJECT_WORK_DIR" ]; then
     echo "No such project '$JINN_PROJECT'"
     exit 1
 fi
 
 echo "Project:          $JINN_PROJECT"
-echo "Project folder:   $JINN_PROJECT_FOLDER"
-echo "Work folder:      $JINN_PROJECT_WORK_FOLDER"
-# Todo: build folder, configs...
+echo "Project dir:      $JINN_PROJECT_DIR"
+echo "Project work dir: $JINN_PROJECT_WORK_DIR"
+# Todo: build dir, configs...

@@ -6,9 +6,9 @@ _jinn_completions()
         return
     fi
 
-    local jinn_folder=$HOME/.jinn
+    local jinn_dir=$HOME/.jinn
     local projects=
-    for dir in $jinn_folder/* ; do
+    for dir in $jinn_dir/* ; do
         if [ -d "$dir" ]; then
             projects+="$(basename $dir) "
         fi
